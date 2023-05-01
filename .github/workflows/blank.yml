@@ -1,0 +1,19 @@
+import nmap
+#C:\Program Files (x86)\Nmap
+nmap_path = [r"C:\Program Files (x86)\Nmap\nmap.exe"]
+nm = nmap.PortScanner(nmap_search_path=nmap_path)
+
+
+
+
+
+
+# prompt the user for an IP address or range of IP addresses to scan
+ip = input("Enter an IP address or range of IP addresses to scan (e.g. 192.168.0.1 or 192.168.0.1-10): ")
+
+# scan the IP address or range of IP addresses
+nm.scan(ip, arguments='-n -sP')
+
+# print the scan results
+print(nm.all_hosts())
+
