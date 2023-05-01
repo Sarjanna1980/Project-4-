@@ -8,12 +8,42 @@ nm = nmap.PortScanner(nmap_search_path=nmap_path)
 
 
 
+# create an instance of the nmap port scanner
+
+
 # prompt the user for an IP address or range of IP addresses to scan
 ip = input("Enter an IP address or range of IP addresses to scan (e.g. 192.168.0.1 or 192.168.0.1-10): ")
 
 # scan the IP address or range of IP addresses
-nm.scan(ip, arguments='-n -sP')
+nm.scan(ip, arguments='-n -sV -O')
 
-# print the scan results
-print(nm.all_hosts())
+# loop through each host found in the scan
+for host in nm.all_hosts():
 
+    # print the hostname and state (up or down)
+    print(f"Host: {host} ({nm[host].state()})")
+
+    # loop through each protocol (TCP or UDP) used by the host
+    for protocol in nm[host].all_protocols():
+
+        # print the protocol name
+        print(f"Protocol: {protocol}")
+
+        # get a list of ports for the protocol
+        port_list = nm[host][protocol].keys()
+
+        # loop through each port in the list
+        for port in port_list:
+
+            # print the port number and state (open or closed)
+            print(f"Port: {port} ({nm[host][protocol][port]['state']})")
+
+            # print information about the service running on the port (if available)
+            if 'name' in nm[host][protocol][port]:
+                print(f"Service: {nm[host][protocol][port]['name']} ({nm[host][protocol][port]['product']})")
+
+    # print information about the operating system (if available)
+    if 'osmatch' in nm[host]:
+        print("Operating System:")
+        for osmatch in nm[host]['osmatch']:
+            print(f"Name: {osmatch['name']} ({osmatch['accuracy']}% accuracy)")
