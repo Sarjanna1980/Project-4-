@@ -16,19 +16,19 @@ root.grid_rowconfigure((0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, ), weight=1)
 # Declare global variables
 source_file_path = ""
 #target_file_path = ""
-
+target_column_v1 = None
 
 def process():
-    global source_file_path
-
-    # Copy the value between files
-    copy_values_v1_between_files(
-        source_file_path, source_sheet, start_row, end_row,
-        source_column_v1, target_file, target_sheet,
-        target_column_v1
+    global source_file_path, target_file_path, target_column_v1
+    entry_path_value = entry_path_1.get()
+    if entry_path_value:
+        copy_values_v1_between_files(
+            source_file_path, source_sheet, start_row, end_row,
+            source_column_v1, target_file_path, target_sheet,
+            target_column_v1
     )
-    copy_value_between_files(
-        source_file_path, source_sheet, target_file, target_sheet, source_cell, target_cell
+        copy_value_between_files(
+                source_file_path, source_sheet, target_file, target_sheet, source_cell, target_cell
     )
 
 def choose_source_file():
@@ -188,7 +188,7 @@ source_column_v2 = 4
 source_cell = "F6"
 step = 2
 target_file ="C:/Users/Sahar/Desktop/leonid_test/UpdatedFormatForDCIRRPT.xlsx"
-target_sheet = "Sheet1"
+target_sheet = "SOC X%"
 target_column_v1 = 16  # Column P
 target_column_v2 = 17
 #target_column_I2 = 16
