@@ -19,18 +19,20 @@ source_file_path = ""
 target_column_v1 = None
 target_row = None
 target_column_v2=None
+
 def process():
-    global source_file_path, target_file_path, target_column_v1, target_row, target_column_v2
+    global source_file_path, target_file_path, target_column_v1, target_row, target_column_v2, start_row, end_row
     entry_path_value = entry_path_1.get()
     if entry_path_value:
-        target_column_v2 = 17
         target_row = 27
+        target_column_v2 = 17
         target_column_v1 = 16
         copy_values_v1_between_files(
             source_file_path, source_sheet, start_row, end_row,
-            target_file_path, target_sheet  # Removed target_column_v1
-
+            target_file_path, target_sheet, target_column_v1, target_row
         )
+
+
         copy_value_between_files(
             source_file_path, source_sheet, target_file, target_sheet, source_cell, target_cell
         )
@@ -41,80 +43,90 @@ def process():
         target_column_v2 = 23
         copy_values_v1_between_files(
             source_file_path, source_sheet, start_row, end_row,
-            target_file_path, target_sheet )
+            target_file_path, target_sheet, target_column_v1, target_row
+        )
 
-        entry_path_value = entry_path_3.get()
-        if entry_path_value:
+    entry_path_value = entry_path_3.get()
+    if entry_path_value:
             target_row = 27
             target_column_v1 = 28
             target_column_v2 = 29
             copy_values_v1_between_files(
-            source_file_path, source_sheet, start_row, end_row,
-            target_file_path, target_sheet
-        )
-        entry_path_value = entry_path_4.get()
-        if entry_path_value:
+                source_file_path, source_sheet, start_row, end_row,
+                target_file_path, target_sheet, target_column_v1, target_row
+            )
+
+
+    entry_path_value = entry_path_4.get()
+    if entry_path_value:
             target_row = 27
             target_column_v1 = 34
             target_column_v2 = 35
             copy_values_v1_between_files(
-            source_file_path, source_sheet, start_row, end_row,
-            target_file_path, target_sheet)
+                source_file_path, source_sheet, start_row, end_row,
+                target_file_path, target_sheet, target_column_v1, target_row
+            )
 
-        entry_path_value = entry_path_5.get()
-        if entry_path_value:
+    entry_path_value = entry_path_5.get()
+    if entry_path_value:
             target_row = 54
             target_column_v1 = 16
             target_column_v2 = 17
             copy_values_v1_between_files(
-            source_file_path, source_sheet, start_row, end_row,
-            target_file_path, target_sheet)
+                source_file_path, source_sheet, start_row, end_row,
+                target_file_path, target_sheet, target_column_v1, target_row
+            )
 
-
-        entry_path_value = entry_path_6.get()
-        if entry_path_value:
+    entry_path_value = entry_path_6.get()
+    if entry_path_value:
             target_row = 54
-            target_column_v1 = 23
-            target_column_v2 = 24
+            target_column_v1 = 22
+            target_column_v2 = 23
             copy_values_v1_between_files(
-            source_file_path, source_sheet, start_row, end_row,
-            target_file_path, target_sheet )
+                source_file_path, source_sheet, start_row, end_row,
+                target_file_path, target_sheet, target_column_v1, target_row
+            )
 
-        entry_path_value = entry_path_7.get()
-        if entry_path_value:
+    entry_path_value = entry_path_7.get()
+    if entry_path_value:
             target_row = 54
             target_column_v1 = 28
             target_column_v2 = 29
             copy_values_v1_between_files(
-            source_file_path, source_sheet, start_row, end_row,
-            target_file_path, target_sheet)
+                source_file_path, source_sheet, start_row, end_row,
+                target_file_path, target_sheet, target_column_v1, target_row
+            )
 
-        entry_path_value = entry_path_8.get()
-        if entry_path_value:
+    entry_path_value = entry_path_8.get()
+    if entry_path_value:
             target_row = 54
             target_column_v1 = 34
             target_column_v2 = 35
             copy_values_v1_between_files(
-            source_file_path, source_sheet, start_row, end_row,
-            target_file_path, target_sheet)
+                source_file_path, source_sheet, start_row, end_row,
+                target_file_path, target_sheet, target_column_v1, target_row
+            )
 
-        entry_path_value = entry_path_9.get()
-        if entry_path_value:
+    entry_path_value = entry_path_9.get()
+    if entry_path_value:
             target_row = 80
             target_column_v1 = 16
             target_column_v2 = 17
             copy_values_v1_between_files(
-            source_file_path, source_sheet, start_row, end_row,
-            target_file_path, target_sheet)
+                source_file_path, source_sheet, start_row, end_row,
+                target_file_path, target_sheet, target_column_v1, target_row
+            )
 
-        entry_path_value = entry_path_10.get()
-        if entry_path_value:
+    entry_path_value = entry_path_10.get()
+    if entry_path_value:
             target_row = 80
             target_column_v1 = 22
             target_column_v2 = 23
             copy_values_v1_between_files(
-            source_file_path, source_sheet, start_row, end_row,
-            target_file_path, target_sheet)
+                source_file_path, source_sheet, start_row, end_row,
+                target_file_path, target_sheet, target_column_v1, target_row
+            )
+
     root.destroy()
 
 def choose_source_file_1():
@@ -310,19 +322,16 @@ button_process = customtkinter.CTkButton(root, text="Process File", command=proc
 button_process.grid(row=10, column=3, columnspan=2, padx=10, pady=10)
 
 
-def copy_values_v1_between_files(source_file, source_sheet, start_row, end_row,  target_file,
-                                 target_sheet, ):
+def copy_values_v1_between_files(source_file, source_sheet, start_row, end_row, target_file, target_sheet, target_column, target_row):
     source_workbook = load_workbook(source_file)
     source_sheet = source_workbook[source_sheet]
 
     target_workbook = load_workbook(target_file)
     target_sheet = target_workbook[target_sheet]
 
-    target_row = 27  # Start copying to P27
-
     for row_index in range(start_row, end_row + 1, step):
         source_cell_v1 = source_sheet.cell(row=row_index, column=source_column_v1)
-        target_cell_v1 = target_sheet.cell(row=target_row, column=target_column_v1)
+        target_cell_v1 = target_sheet.cell(row=target_row, column=target_column)
         source_cell_v2 = source_sheet.cell(row=row_index, column=source_column_v2)
         target_cell_v2 = target_sheet.cell(row=target_row, column=target_column_v2)
         target_cell_v1.value = source_cell_v1.value
@@ -333,6 +342,7 @@ def copy_values_v1_between_files(source_file, source_sheet, start_row, end_row, 
     target_workbook.save(target_file)
     source_workbook.close()
     target_workbook.close()
+
 
 
 
