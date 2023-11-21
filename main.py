@@ -17,25 +17,183 @@ root.grid_rowconfigure((0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, ), weight=1)
 source_file_path = ""
 #target_file_path = ""
 target_column_v1 = None
-
+target_row = None
+target_column_v2=None
 def process():
-    global source_file_path, target_file_path, target_column_v1
+    global source_file_path, target_file_path, target_column_v1, target_row, target_column_v2
     entry_path_value = entry_path_1.get()
     if entry_path_value:
+        target_column_v2 = 17
+        target_row = 27
+        target_column_v1 = 16
         copy_values_v1_between_files(
             source_file_path, source_sheet, start_row, end_row,
-            source_column_v1, target_file_path, target_sheet,
-            target_column_v1
-    )
-        copy_value_between_files(
-                source_file_path, source_sheet, target_file, target_sheet, source_cell, target_cell
-    )
+            target_file_path, target_sheet  # Removed target_column_v1
 
-def choose_source_file():
+        )
+        copy_value_between_files(
+            source_file_path, source_sheet, target_file, target_sheet, source_cell, target_cell
+        )
+    entry_path_value = entry_path_2.get()
+    if entry_path_value:
+        target_row = 27
+        target_column_v1 = 22
+        target_column_v2 = 23
+        copy_values_v1_between_files(
+            source_file_path, source_sheet, start_row, end_row,
+            target_file_path, target_sheet )
+
+        entry_path_value = entry_path_3.get()
+        if entry_path_value:
+            target_row = 27
+            target_column_v1 = 28
+            target_column_v2 = 29
+            copy_values_v1_between_files(
+            source_file_path, source_sheet, start_row, end_row,
+            target_file_path, target_sheet
+        )
+        entry_path_value = entry_path_4.get()
+        if entry_path_value:
+            target_row = 27
+            target_column_v1 = 34
+            target_column_v2 = 35
+            copy_values_v1_between_files(
+            source_file_path, source_sheet, start_row, end_row,
+            target_file_path, target_sheet)
+
+        entry_path_value = entry_path_5.get()
+        if entry_path_value:
+            target_row = 54
+            target_column_v1 = 16
+            target_column_v2 = 17
+            copy_values_v1_between_files(
+            source_file_path, source_sheet, start_row, end_row,
+            target_file_path, target_sheet)
+
+
+        entry_path_value = entry_path_6.get()
+        if entry_path_value:
+            target_row = 54
+            target_column_v1 = 23
+            target_column_v2 = 24
+            copy_values_v1_between_files(
+            source_file_path, source_sheet, start_row, end_row,
+            target_file_path, target_sheet )
+
+        entry_path_value = entry_path_7.get()
+        if entry_path_value:
+            target_row = 54
+            target_column_v1 = 28
+            target_column_v2 = 29
+            copy_values_v1_between_files(
+            source_file_path, source_sheet, start_row, end_row,
+            target_file_path, target_sheet)
+
+        entry_path_value = entry_path_8.get()
+        if entry_path_value:
+            target_row = 54
+            target_column_v1 = 34
+            target_column_v2 = 35
+            copy_values_v1_between_files(
+            source_file_path, source_sheet, start_row, end_row,
+            target_file_path, target_sheet)
+
+        entry_path_value = entry_path_9.get()
+        if entry_path_value:
+            target_row = 80
+            target_column_v1 = 16
+            target_column_v2 = 17
+            copy_values_v1_between_files(
+            source_file_path, source_sheet, start_row, end_row,
+            target_file_path, target_sheet)
+
+        entry_path_value = entry_path_10.get()
+        if entry_path_value:
+            target_row = 80
+            target_column_v1 = 22
+            target_column_v2 = 23
+            copy_values_v1_between_files(
+            source_file_path, source_sheet, start_row, end_row,
+            target_file_path, target_sheet)
+    root.destroy()
+
+def choose_source_file_1():
     global source_file_path
     file_path = filedialog.askopenfilename(title="Select Source File")
     entry_path_1.delete(0, customtkinter.END)
     entry_path_1.insert(0, file_path)
+    source_file_path = file_path
+def choose_source_file_2():
+    global source_file_path
+    file_path = filedialog.askopenfilename(title="Select Source File")
+    entry_path_2.delete(0, customtkinter.END)
+    entry_path_2.insert(0, file_path)
+    source_file_path = file_path
+
+def choose_source_file_1():
+    global source_file_path
+    file_path = filedialog.askopenfilename(title="Select Source File")
+    entry_path_1.delete(0, customtkinter.END)
+    entry_path_1.insert(0, file_path)
+    source_file_path = file_path
+def choose_source_file_2():
+    global source_file_path
+    file_path = filedialog.askopenfilename(title="Select Source File")
+    entry_path_2.delete(0, customtkinter.END)
+    entry_path_2.insert(0, file_path)
+    source_file_path = file_path
+
+
+def choose_source_file_3():
+    global source_file_path
+    file_path = filedialog.askopenfilename(title="Select Source File")
+    entry_path_3.delete(0, customtkinter.END)
+    entry_path_3.insert(0, file_path)
+    source_file_path = file_path
+
+
+def choose_source_file_4():
+    global source_file_path
+    file_path = filedialog.askopenfilename(title="Select Source File")
+    entry_path_4.delete(0, customtkinter.END)
+    entry_path_4.insert(0, file_path)
+    source_file_path = file_path
+def choose_source_file_5():
+    global source_file_path
+    file_path = filedialog.askopenfilename(title="Select Source File")
+    entry_path_5.delete(0, customtkinter.END)
+    entry_path_5.insert(0, file_path)
+    source_file_path = file_path
+def choose_source_file_6():
+    global source_file_path
+    file_path = filedialog.askopenfilename(title="Select Source File")
+    entry_path_6.delete(0, customtkinter.END)
+    entry_path_6.insert(0, file_path)
+    source_file_path = file_path
+
+def choose_source_file_7():
+    global source_file_path
+    file_path = filedialog.askopenfilename(title="Select Source File")
+    entry_path_7.delete(0, customtkinter.END)
+    entry_path_7.insert(0, file_path)
+    source_file_path = file_path
+def choose_source_file_8():
+    global source_file_path
+    file_path = filedialog.askopenfilename(title="Select Source File")
+    entry_path_8.delete(0, customtkinter.END)
+    entry_path_8.insert(0, file_path)
+    source_file_path = file_path
+def choose_source_file_9():
+    global source_file_path
+    file_path = filedialog.askopenfilename(title="Select Source File")
+    entry_path_9.delete(0, customtkinter.END)
+    entry_path_9.insert(0, file_path)
+    source_file_path = file_path
+def choose_source_file_10():
+    global source_file_path
+    file_path = filedialog.askopenfilename(title="Select Source File")
+    entry_path_10.delete(0, customtkinter.END)
+    entry_path_10.insert(0, file_path)
     source_file_path = file_path
 
 
@@ -83,61 +241,61 @@ target_cell_location = "P16"
 entry_path_1 = customtkinter.CTkEntry(root, width=330)
 entry_path_1.grid(row=0, column=0, )
 
-button_choose_source_1 = customtkinter.CTkButton(root, text="Choose Source File", command=choose_source_file)
+button_choose_source_1 = customtkinter.CTkButton(root, text="Choose Source File", command=choose_source_file_1)
 button_choose_source_1.grid(row=0, column=1, padx=1, pady=1)
 
 entry_path_2 = customtkinter.CTkEntry(root, width=330)
 entry_path_2.grid(row=1, column=0, padx=1, pady=1,)
 
-button_choose_source_2 = customtkinter.CTkButton(root, text="Choose Source File", command=choose_source_file)
+button_choose_source_2 = customtkinter.CTkButton(root, text="Choose Source File", command=choose_source_file_2)
 button_choose_source_2.grid(row=1, column=1, padx=1, pady=1)
 
 entry_path_3 = customtkinter.CTkEntry(root, width=330)
 entry_path_3.grid(row=2, column=0, padx=1, pady=1)
 
-button_choose_source_3 = customtkinter.CTkButton(root, text="Choose Source File", command=choose_source_file)
+button_choose_source_3 = customtkinter.CTkButton(root, text="Choose Source File", command=choose_source_file_3)
 button_choose_source_3.grid(row=2, column=1, padx=1, pady=1)
 
 entry_path_4 = customtkinter.CTkEntry(root, width=330)
 entry_path_4.grid(row=3, column=0, padx=1, pady=1, )
 
-button_choose_source_4 = customtkinter.CTkButton(root, text="Choose Source File", command=choose_source_file)
+button_choose_source_4 = customtkinter.CTkButton(root, text="Choose Source File", command=choose_source_file_4)
 button_choose_source_4.grid(row=3, column=1, padx=1, pady=1)
 
 entry_path_5 = customtkinter.CTkEntry(root, width=330)
 entry_path_5.grid(row=4, column=0, padx=1, pady=1, )
 
-button_choose_source_5 = customtkinter.CTkButton(root, text="Choose Source File", command=choose_source_file)
+button_choose_source_5 = customtkinter.CTkButton(root, text="Choose Source File", command=choose_source_file_5)
 button_choose_source_5.grid(row=4, column=1, padx=1, pady=1)
 
 entry_path_6 = customtkinter.CTkEntry(root, width=330)
 entry_path_6.grid(row=5, column=0, padx=1, pady=1, )
 
-button_choose_source_6 = customtkinter.CTkButton(root, text="Choose Source File", command=choose_source_file)
+button_choose_source_6 = customtkinter.CTkButton(root, text="Choose Source File", command=choose_source_file_6)
 button_choose_source_6.grid(row=5, column=1, padx=1, pady=1)
 
 entry_path_7 = customtkinter.CTkEntry(root, width=330)
 entry_path_7.grid(row=6, column=0, padx=1, pady=1,)
 
-button_choose_source_7 = customtkinter.CTkButton(root, text="Choose Source File", command=choose_source_file)
+button_choose_source_7 = customtkinter.CTkButton(root, text="Choose Source File", command=choose_source_file_7)
 button_choose_source_7.grid(row=6, column=1, padx=1, pady=1)
 
 entry_path_8 = customtkinter.CTkEntry(root, width=330)
 entry_path_8.grid(row=7, column=0, padx=1, pady=1,)
 
-button_choose_source_8 = customtkinter.CTkButton(root, text="Choose Source File", command=choose_source_file)
+button_choose_source_8 = customtkinter.CTkButton(root, text="Choose Source File", command=choose_source_file_8)
 button_choose_source_8.grid(row=7, column=1, padx=1, pady=1)
 
-entry_path_7 = customtkinter.CTkEntry(root, width=330)
-entry_path_7.grid(row=8, column=0, padx=1, pady=1, )
+entry_path_9 = customtkinter.CTkEntry(root, width=330)
+entry_path_9.grid(row=8, column=0, padx=1, pady=1, )
 
-button_choose_source_9 = customtkinter.CTkButton(root, text="Choose Source File", command=choose_source_file)
+button_choose_source_9 = customtkinter.CTkButton(root, text="Choose Source File", command=choose_source_file_9)
 button_choose_source_9.grid(row=8, column=1, padx=1, pady=1)
 
 entry_path_10 = customtkinter.CTkEntry(root, width=330)
 entry_path_10.grid(row=9, column=0, padx=1, pady=1)
 
-button_choose_source_10 = customtkinter.CTkButton(root, text="Choose Source File", command=choose_source_file)
+button_choose_source_10 = customtkinter.CTkButton(root, text="Choose Source File", command=choose_source_file_10)
 button_choose_source_10.grid(row=9, column=1, padx=1, pady=1)
 
 
@@ -152,8 +310,8 @@ button_process = customtkinter.CTkButton(root, text="Process File", command=proc
 button_process.grid(row=10, column=3, columnspan=2, padx=10, pady=10)
 
 
-def copy_values_v1_between_files(source_file, source_sheet, start_row, end_row, source_column, target_file,
-                                 target_sheet, target_column):
+def copy_values_v1_between_files(source_file, source_sheet, start_row, end_row,  target_file,
+                                 target_sheet, ):
     source_workbook = load_workbook(source_file)
     source_sheet = source_workbook[source_sheet]
 
@@ -183,15 +341,10 @@ start_row = 6
 end_row = 28
 source_column_v1 = 3  # Column C
 source_column_v2 = 4
-#source_column_I2 = 6
-#source_row_I2 = 6
 source_cell = "F6"
 step = 2
 target_file ="C:/Users/Sahar/Desktop/leonid_test/UpdatedFormatForDCIRRPT.xlsx"
 target_sheet = "SOC X%"
-target_column_v1 = 16  # Column P
 target_column_v2 = 17
-#target_column_I2 = 16
-#target_row_I2 = 16
 target_cell="P16"
 root.mainloop()
