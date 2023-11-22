@@ -1,7 +1,7 @@
 from openpyxl import load_workbook
 import customtkinter
 from tkinter import filedialog
-
+import os
 customtkinter.set_appearance_mode("System")
 customtkinter.set_default_color_theme("blue")
 
@@ -30,89 +30,17 @@ def process():
     for i in range(10):
         entry_path_value = entry_paths[i].get()
         if entry_path_value:
-            if i == 0:
-                target_config = {
-                     'sheet': 'SOC X%',
-                    'target_column_v1': 16,
-                    'target_column_v2': 17,
-                    'target_row': 27,
+            # Create a new target configuration for each iteration
+            target_config = {
+                'sheet': 'SOC X%',
+                'target_column_v1': 16 + i * 6,  # Adjust this calculation based on your needs
+                'target_column_v2': 17 + i * 6,  # Adjust this calculation based on your needs
+                'target_row': 27,
             }
-
-            elif i == 1:
-                target_config = {
-                    'sheet': 'SOC X%',
-                    'target_column_v1': 22,
-                    'target_column_v2': 23,
-                    'target_row': 27,
-                }
-            elif i == 2:
-                target_config = {
-                    'sheet': 'SOC X%',
-                    'target_column_v1': 28,
-                    'target_column_v2': 29,
-                    'target_row': 27,
-                }
-            elif i == 3:
-                target_config = {
-                    'sheet': 'SOC X%',
-                    'target_column_v1': 34,
-                    'target_column_v2': 35,
-                    'target_row': 27,
-                }
-            elif i == 4:
-                target_config = {
-                    'sheet': 'SOC X%',
-                    'target_column_v1': 40,
-                    'target_column_v2': 41,
-                    'target_row': 27,
-                }
-            elif i == 5:
-                target_config = {
-                    'sheet': 'SOC X%',
-                    'target_column_v1': 46,
-                    'target_column_v2': 47,
-                    'target_row': 27,
-                }
-            elif i == 6:
-                target_config = {
-                    'sheet': 'SOC X%',
-                    'target_column_v1': 52,
-                    'target_column_v2': 53,
-                    'target_row': 27,
-                }
-            elif i == 7:
-                target_config = {
-                    'sheet': 'SOC X%',
-                    'target_column_v1': 22,
-                    'target_column_v2': 23,
-                    'target_row': 27,
-                }
-            elif i == 8:
-                target_config = {
-                    'sheet': 'SOC X%',
-                    'target_column_v1': 58,
-                    'target_column_v2': 59,
-                    'target_row': 27,
-                }
-            elif i == 9:
-                target_config = {
-                    'sheet': 'SOC X%',
-                    'target_column_v1': 64,
-                    'target_column_v2': 65,
-                    'target_row': 27,
-                }
-            elif i == 10:
-                target_config = {
-                    'sheet': 'SOC X%',
-                    'target_column_v1': 70,
-                    'target_column_v2': 71,
-                    'target_row': 27,
-                }
             copy_values_between_files(
                 source_file_paths[i], source_config,
                 target_file_path, target_config
             )
-
 
     root.destroy()
 
@@ -138,8 +66,6 @@ for i in range(10):
     entry_paths.append(entry_path)
     buttons_choose_source.append(button_choose_source)
 
-
-
 button_process = customtkinter.CTkButton(root, text="Process File", command=process)
 button_process.grid(row=10, column=3, columnspan=2, padx=10, pady=10)
 
@@ -160,12 +86,26 @@ def copy_values_between_files(source_file, source_config, target_file, target_co
 
         target_config['target_row'] += 1
 
-    target_workbook.save(target_file)
+    # Generate the updated target file name
+    updated_target_file_path = generate_updated_filename(target_file)
+
+    # Save the target workbook with the updated name
+    target_workbook.save(updated_target_file_path)
     source_workbook.close()
     target_workbook.close()
 
+# Function to generate the updated file name
+def generate_updated_filename(original_filepath):
+    if not original_filepath:
+        return ""  # Return an empty string if the original filepath is empty
+
+    filepath, filename = os.path.split(original_filepath)
+    filename, extension = os.path.splitext(filename)
+    updated_filename = f"{filename}_Updated{extension}"
+    return os.path.join(filepath, updated_filename)
+
 # Initialize target file information
-target_file_path = "C:/Users/Sahar/Desktop/leonid_test/UpdatedFormatForDCIRRPT.xlsx"
+target_file_path = "C:/Users/Sahar/Desktop/leonid_test/FormatForDCIRRPT.xlsx"
 
 # Set target sheet information (SOC X%)
 target_sheet = "SOC X%"
@@ -174,3 +114,4 @@ target_column_v2 = 17
 target_row = 27
 
 root.mainloop()
+
