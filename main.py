@@ -7,8 +7,8 @@ customtkinter.set_appearance_mode("System")
 customtkinter.set_default_color_theme("blue")
 
 root = customtkinter.CTk()
-root.title("SolarEdge")
-root.iconbitmap("C:/Users/Sahar/Desktop/leonid_test/SEDG.ICO")
+root.title("Beta version v0.0001 Leonid")
+root.iconbitmap("C:/Users/Sahar/Desktop/pythonProject4/SEDG.ICO")
 root.geometry(f"{900}x{600}")
 root.grid_columnconfigure((0, 1, 2, 3), weight=1)
 root.grid_rowconfigure((0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11), weight=1)
@@ -22,33 +22,43 @@ def process():
     source_config = {
         'sheet': 'sheet2',
         'start_row': 6,
-        'end_row': 28,
+        'end_row': 47,
         'column_v1': 3,
         'column_v2': 4,
         'step': 2,
     }
 
-    target_workbook = None  # Initialize target workbook
+    target_workbook = load_workbook(target_file_path)  # Initialize target workbook
     source_workbook = None
+
     for i in range(10):
         entry_path_value = entry_paths[i].get()
         if entry_path_value:
             # Create a new target configuration for each iteration
             target_config = {
                 'sheet': 'SOC X%',
-                'target_column_v1': 16 + i * 6,  # Adjust this calculation based on your needs
-                'target_column_v2': 17 + i * 6,  # Adjust this calculation based on your needs
+                'target_column_v1': 16 + i * 6,
+                'target_column_v2': 17 + i * 6,
                 'target_row': 27,
             }
-            target_workbook, source_workbook = copy_values_between_files(
-                source_file_paths[i], source_config,
-                target_file_path, target_config,
-                target_workbook, source_workbook
-            )
+            process_file(entry_path_value, source_config, target_workbook, target_config)
 
-    if target_workbook and source_workbook:
-        updated_target_file_path(target_workbook, source_workbook)
-        root.destroy()
+    # Close workbooks after the loop
+    if source_workbook:
+        source_workbook.close()
+    if target_workbook:
+        updated_target_file_path(target_workbook)
+
+    root.destroy()
+
+def process_file(source_file, source_config, target_workbook, target_config):
+    source_workbook = load_workbook(source_file)
+
+    copy_values_between_files(
+        source_file, source_config,
+        target_workbook, target_config,
+        source_workbook
+    )
 
 def choose_source_file(i):
     global source_file_paths
@@ -75,13 +85,7 @@ for i in range(10):
 button_process = customtkinter.CTkButton(root, text="Process File", command=process)
 button_process.grid(row=10, column=3, columnspan=2, padx=10, pady=10)
 
-def copy_values_between_files(source_file, source_config, target_file, target_config, target_workbook, source_workbook):
-    if not target_workbook:
-        target_workbook = load_workbook(target_file)
-
-    if not source_workbook:
-        source_workbook = load_workbook(source_file)
-
+def copy_values_between_files(source_file, source_config, target_workbook, target_config, source_workbook):
     source_sheet = source_workbook[source_config['sheet']]
     target_sheet = target_workbook[target_config['sheet']]
 
@@ -95,13 +99,12 @@ def copy_values_between_files(source_file, source_config, target_file, target_co
 
         target_config['target_row'] += 1
 
-    return target_workbook, source_workbook
+    # Save the target workbook after processing all source files
 
-def updated_target_file_path(target_workbook, source_workbook):
+def updated_target_file_path(target_workbook):
     # Generate the updated target file name
     updated_target_file_path = generate_updated_filename(target_file_path)
     target_workbook.save(updated_target_file_path)
-    source_workbook.close()
     target_workbook.close()
 
 # Function to generate the updated file name
