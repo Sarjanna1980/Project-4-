@@ -9,8 +9,8 @@ customtkinter.set_default_color_theme("blue")
 root = customtkinter.CTk()
 root.title("Beta version v0.0001 Leonid")
 root.iconbitmap("C:/Users/Sahar/Desktop/pythonProject4/SEDG.ICO")
-root.geometry(f"{900}x{600}")
-root.grid_columnconfigure((0, 1, 2, 3), weight=1)
+root.geometry(f"{1100}x{600}")
+root.grid_columnconfigure((0, 1, 2, 3,4), weight=1)
 root.grid_rowconfigure((0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11), weight=1)
 
 # Declare global variables
@@ -27,8 +27,15 @@ def process():
         'column_v2': 4,
         'step': 2,
     }
+    dest_file_path = entry_dest_file_path.get()
+    if not dest_file_path:
+        customtkinter.messagebox.showwarning("Warning", "Please choose a destination file path.")
+        return
+    if not os.path.exists(dest_file_path):
+        customtkinter.messagebox.showwarning("Warning", f"Destination file path does not exist: {dest_file_path}")
+        return
 
-    target_workbook = load_workbook(target_file_path)  # Initialize target workbook
+    target_workbook = load_workbook(dest_file_path)  # Initialize target workbook
     source_workbook = None
 
     for i in range(10):
@@ -47,7 +54,7 @@ def process():
     if source_workbook:
         source_workbook.close()
     if target_workbook:
-        updated_target_file_path(target_workbook)
+        updated_target_file_path(target_workbook, dest_file_path)
 
     root.destroy()
 
@@ -93,7 +100,24 @@ for i in range(10):
     buttons_choose_source.append(button_choose_source)
 
 button_process = customtkinter.CTkButton(root, text="Process File", command=process)
-button_process.grid(row=10, column=3, columnspan=2, padx=10, pady=10)
+button_process.grid(row=10, column=1, columnspan=2, padx=10, pady=10)
+
+entry_dest_file_path = customtkinter.CTkEntry(root, width=330)
+entry_dest_file_path.grid(row=5, column=3, padx=30, pady=30)
+
+def choose_dest_file_path():
+    dest_file_path = filedialog.askopenfilename(
+        defaultextension=".xlsx",
+        filetypes=[("Excel files", "*.xlsx")],
+        title="Choose Destination File Path"
+    )
+    if dest_file_path:
+        entry_dest_file_path.delete(0, customtkinter.END)
+        entry_dest_file_path.insert(0, dest_file_path)
+
+
+button_choose_dest_file_path = customtkinter.CTkButton(root, text="Choose Destination File Path", command=choose_dest_file_path)
+button_choose_dest_file_path.grid(row=5, column=4, padx=30, pady=30)
 
 def copy_values_between_files(source_file, source_config, target_workbook, target_config, source_workbook):
     source_sheet = source_workbook[source_config['sheet']]
@@ -111,13 +135,6 @@ def copy_values_between_files(source_file, source_config, target_workbook, targe
 
     # Save the target workbook after processing all source files
 
-def updated_target_file_path(target_workbook):
-    # Generate the updated target file name
-    updated_target_file_path = generate_updated_filename(target_file_path)
-    target_workbook.save(updated_target_file_path)
-    target_workbook.close()
-
-# Function to generate the updated file name
 def generate_updated_filename(original_filepath):
     if not original_filepath:
         return ""  # Return an empty string if the original filepath is empty
@@ -127,8 +144,16 @@ def generate_updated_filename(original_filepath):
     updated_filename = f"{filename}_Updated{extension}"
     return os.path.join(filepath, updated_filename)
 
+
+# Function to generate the updated file name
+def updated_target_file_path(target_workbook, file_path):
+    # Generate the updated target file name
+    updated_target_file_path = generate_updated_filename(file_path)
+    target_workbook.save(updated_target_file_path)
+    target_workbook.close()
+
 # Initialize target file information
-target_file_path = "C:/Users/Sahar/Desktop/leonid_test/FormatForDCIRRPT.xlsx"
+#target_file_path = "C:/Users/Sahar/Desktop/leonid_test/FormatForDCIRRPT.xlsx"
 
 # Set target sheet information (SOC X%)
 target_sheet = "SOC X%"
