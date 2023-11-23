@@ -2,6 +2,7 @@ from openpyxl import load_workbook
 import customtkinter
 from tkinter import filedialog
 import os
+
 customtkinter.set_appearance_mode("System")
 customtkinter.set_default_color_theme("blue")
 
@@ -27,6 +28,8 @@ def process():
         'step': 2,
     }
 
+    target_workbook = None  # Initialize target workbook
+    source_workbook = None
     for i in range(10):
         entry_path_value = entry_paths[i].get()
         if entry_path_value:
@@ -37,12 +40,15 @@ def process():
                 'target_column_v2': 17 + i * 6,  # Adjust this calculation based on your needs
                 'target_row': 27,
             }
-            copy_values_between_files(
+            target_workbook, source_workbook = copy_values_between_files(
                 source_file_paths[i], source_config,
-                target_file_path, target_config
+                target_file_path, target_config,
+                target_workbook, source_workbook
             )
 
-    root.destroy()
+    if target_workbook and source_workbook:
+        updated_target_file_path(target_workbook, source_workbook)
+        root.destroy()
 
 def choose_source_file(i):
     global source_file_paths
@@ -69,11 +75,14 @@ for i in range(10):
 button_process = customtkinter.CTkButton(root, text="Process File", command=process)
 button_process.grid(row=10, column=3, columnspan=2, padx=10, pady=10)
 
-def copy_values_between_files(source_file, source_config, target_file, target_config):
-    source_workbook = load_workbook(source_file)
-    source_sheet = source_workbook[source_config['sheet']]
+def copy_values_between_files(source_file, source_config, target_file, target_config, target_workbook, source_workbook):
+    if not target_workbook:
+        target_workbook = load_workbook(target_file)
 
-    target_workbook = load_workbook(target_file)
+    if not source_workbook:
+        source_workbook = load_workbook(source_file)
+
+    source_sheet = source_workbook[source_config['sheet']]
     target_sheet = target_workbook[target_config['sheet']]
 
     for row_index in range(source_config['start_row'], source_config['end_row'] + 1, source_config['step']):
@@ -86,10 +95,11 @@ def copy_values_between_files(source_file, source_config, target_file, target_co
 
         target_config['target_row'] += 1
 
-    # Generate the updated target file name
-    updated_target_file_path = generate_updated_filename(target_file)
+    return target_workbook, source_workbook
 
-    # Save the target workbook with the updated name
+def updated_target_file_path(target_workbook, source_workbook):
+    # Generate the updated target file name
+    updated_target_file_path = generate_updated_filename(target_file_path)
     target_workbook.save(updated_target_file_path)
     source_workbook.close()
     target_workbook.close()
@@ -114,4 +124,3 @@ target_column_v2 = 17
 target_row = 27
 
 root.mainloop()
-
