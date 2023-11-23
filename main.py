@@ -41,8 +41,8 @@ def process():
                 'target_column_v2': 17 + i * 6,
                 'target_row': 27,
             }
-            process_file(entry_path_value, source_config, target_workbook, target_config)
-
+            source_workbook = process_file(entry_path_value, source_config, target_workbook, target_config)
+            transfer_f6_to_p16(source_workbook, target_workbook, target_config)
     # Close workbooks after the loop
     if source_workbook:
         source_workbook.close()
@@ -59,6 +59,16 @@ def process_file(source_file, source_config, target_workbook, target_config):
         target_workbook, target_config,
         source_workbook
     )
+    return source_workbook
+
+def transfer_f6_to_p16(source_workbook, target_workbook, target_config):
+    source_sheet = source_workbook['sheet2']
+    target_sheet = target_workbook[target_config['sheet']]
+
+    # Transfer the value from F6 in the source file to P16 in the target file
+    source_cell_f6 = source_sheet['F6']
+    target_cell_p16 = target_sheet['P16']
+    target_cell_p16.value = source_cell_f6.value
 
 def choose_source_file(i):
     global source_file_paths
