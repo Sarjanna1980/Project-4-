@@ -3,11 +3,15 @@ import customtkinter
 from tkinter import filedialog
 import os
 
+
 customtkinter.set_appearance_mode("System")
 customtkinter.set_default_color_theme("blue")
 
 root = customtkinter.CTk()
+
+# Set the window title font and foreground color
 root.title("Beta version v0.0001 Leonid")
+
 root.iconbitmap("C:/Users/Sahar/Desktop/pythonProject4/SEDG.ICO")
 root.geometry(f"{1100}x{600}")
 root.grid_columnconfigure((0, 1, 2, 3,4), weight=1)
@@ -89,7 +93,7 @@ entry_paths = []
 buttons_choose_source = []
 
 for i in range(10):
-    entry_path = customtkinter.CTkEntry(root, width=330)
+    entry_path = customtkinter.CTkEntry(root, placeholder_text=f"Data file {i + 1}", width=200, )
     entry_path.grid(row=i, column=0, padx=1, pady=1)
 
     button_choose_source = customtkinter.CTkButton(root, text=f"Choose Source File {i + 1}",
@@ -99,11 +103,11 @@ for i in range(10):
     entry_paths.append(entry_path)
     buttons_choose_source.append(button_choose_source)
 
-button_process = customtkinter.CTkButton(root, text="Process File", command=process)
-button_process.grid(row=10, column=1, columnspan=2, padx=10, pady=10)
+button_process = customtkinter.CTkButton(root, text="Process", command=process)
+button_process.grid(row=10, column=3, columnspan=2, padx=(20, 20), pady=(20, 20), sticky="nsew")
 
-entry_dest_file_path = customtkinter.CTkEntry(root, width=330)
-entry_dest_file_path.grid(row=5, column=3, padx=30, pady=30)
+entry_dest_file_path = customtkinter.CTkEntry(root, width=200)
+entry_dest_file_path.grid(row=5, column=3)
 
 def choose_dest_file_path():
     dest_file_path = filedialog.askopenfilename(
@@ -117,7 +121,7 @@ def choose_dest_file_path():
 
 
 button_choose_dest_file_path = customtkinter.CTkButton(root, text="Choose Destination File Path", command=choose_dest_file_path)
-button_choose_dest_file_path.grid(row=5, column=4, padx=30, pady=30)
+button_choose_dest_file_path.grid(row=5, column=4,sticky="w")
 
 def copy_values_between_files(source_file, source_config, target_workbook, target_config, source_workbook):
     source_sheet = source_workbook[source_config['sheet']]
