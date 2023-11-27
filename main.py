@@ -10,15 +10,15 @@ customtkinter.set_default_color_theme("blue")
 root = customtkinter.CTk()
 
 # Set the window title font and foreground color
-root.title("Beta version v0.0001 Leonid")
+root.title("Beta version v0.2 Leonid")
 
-root.iconbitmap("C:/Users/Sahar/Desktop/pythonProject4/SEDG.ICO")
+#root.iconbitmap("C:/Users/Sahar/Desktop/pythonProject4/SEDG.ICO")
 root.geometry(f"{1100}x{600}")
-root.grid_columnconfigure((0, 1, 2, 3,4), weight=1)
+root.grid_columnconfigure((0, 1, 2, 3,4,5,6,7), weight=1)
 root.grid_rowconfigure((0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11), weight=1)
 
 # Declare global variables
-source_file_paths = [""] * 10
+source_file_paths = [""] * 20
 target_file_path = ""  # Initialize target_file_path
 
 def process():
@@ -42,15 +42,15 @@ def process():
     target_workbook = load_workbook(dest_file_path)  # Initialize target workbook
     source_workbook = None
 
-    for i in range(10):
+    for i in range(20):
         entry_path_value = entry_paths[i].get()
         if entry_path_value:
             # Create a new target configuration for each iteration
             target_config = {
                 'sheet': 'SOC X%',
-                'target_column_v1': 16 + i * 6,
-                'target_column_v2': 17 + i * 6,
-                'target_row': 27,
+                'target_column_v1': 16,
+                'target_column_v2': 17,
+                'target_row': 27 + i * 26,
             }
             source_workbook = process_file(entry_path_value, source_config, target_workbook, target_config)
             transfer_f6_to_p16(source_workbook, target_workbook, target_config)
@@ -92,22 +92,22 @@ def choose_source_file(i):
 entry_paths = []
 buttons_choose_source = []
 
-for i in range(10):
-    entry_path = customtkinter.CTkEntry(root, placeholder_text=f"Data file {i + 1}", width=200, )
-    entry_path.grid(row=i, column=0, padx=1, pady=1)
-
-    button_choose_source = customtkinter.CTkButton(root, text=f"Choose Source File {i + 1}",
-                                                    command=lambda i=i: choose_source_file(i))
-    button_choose_source.grid(row=i, column=1, padx=1, pady=1)
-
+for i in range(20):
+    entry_column = 0 if i < 10 else 3
+    button_column = 1 if i < 10 else 4
+    entry_row = i % 10
+    entry_path = customtkinter.CTkEntry(root, placeholder_text=f"Month {i + 1}", width=200, )
+    entry_path.grid(row=entry_row, column=entry_column, padx=1, pady=1)
+    button_choose_source = customtkinter.CTkButton(root, text=f"Choose Source File {i + 1}",command=lambda i=i: choose_source_file(i))
+    button_choose_source.grid(row=entry_row, column=button_column, padx=1, pady=1)
     entry_paths.append(entry_path)
     buttons_choose_source.append(button_choose_source)
 
 button_process = customtkinter.CTkButton(root, text="Process", command=process)
-button_process.grid(row=10, column=3, columnspan=2, padx=(20, 20), pady=(20, 20), sticky="nsew")
+button_process.grid(row=10, column=7, columnspan=2, padx=(20, 20), pady=(20, 20), sticky="nsew")
 
 entry_dest_file_path = customtkinter.CTkEntry(root, width=200)
-entry_dest_file_path.grid(row=5, column=3)
+entry_dest_file_path.grid(row=5, column=7)
 
 def choose_dest_file_path():
     dest_file_path = filedialog.askopenfilename(
@@ -121,7 +121,7 @@ def choose_dest_file_path():
 
 
 button_choose_dest_file_path = customtkinter.CTkButton(root, text="Choose Destination File Path", command=choose_dest_file_path)
-button_choose_dest_file_path.grid(row=5, column=4,sticky="w")
+button_choose_dest_file_path.grid(row=5, column=6,sticky="w")
 
 def copy_values_between_files(source_file, source_config, target_workbook, target_config, source_workbook):
     source_sheet = source_workbook[source_config['sheet']]
@@ -151,13 +151,11 @@ def generate_updated_filename(original_filepath):
 
 # Function to generate the updated file name
 def updated_target_file_path(target_workbook, file_path):
-    # Generate the updated target file name
     updated_target_file_path = generate_updated_filename(file_path)
     target_workbook.save(updated_target_file_path)
     target_workbook.close()
 
-# Initialize target file information
-#target_file_path = "C:/Users/Sahar/Desktop/leonid_test/FormatForDCIRRPT.xlsx"
+
 
 # Set target sheet information (SOC X%)
 target_sheet = "SOC X%"
